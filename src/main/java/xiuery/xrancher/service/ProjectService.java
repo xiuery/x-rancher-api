@@ -8,5 +8,6 @@ import java.util.Map;
 @Service
 public interface ProjectService {
     List<Map> getProjects();
-    Map<String, String> getProject(String name);
+    Map<String, Object> getProject(String name);
+    void delete(String name);
 }

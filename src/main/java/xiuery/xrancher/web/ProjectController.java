@@ -23,14 +23,12 @@ public class ProjectController {
     }
 
     @GetMapping("/{name}")
-    public Map<String, String> show(@PathVariable String name){
+    public Map<String, Object> show(@PathVariable String name){
         return projectService.getProject(name);
     }
 
     @DeleteMapping("/{name}")
     public void delete(@PathVariable String name){
-
-
-
+        projectService.delete(name);
     }
 }

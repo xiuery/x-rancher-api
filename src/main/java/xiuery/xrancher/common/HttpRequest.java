@@ -15,28 +15,34 @@ public class HttpRequest {
         httpRequest = HttpClient.createDefault();
     }
 
-    public HttpRequest(Map<String, String> headers){
+    public HttpRequest(Map<String, Object> headers){
         this();
 
-        for (Map.Entry<String, String> entry : headers.entrySet()) {
+        for (Map.Entry<String, Object> entry : headers.entrySet()) {
             httpRequest = httpRequest.addHeader(entry.getKey(), entry.getValue());
         }
     }
 
-    public HttpRequest(Map<String, String> headers, String url){
+    public HttpRequest(Map<String, Object> headers, String url){
         this(headers);
         httpRequest = httpRequest.url(url);
     }
 
-    public HttpRequest(Map<String, String> headers, String url, String method){
+    public HttpRequest(Map<String, Object> headers, String url, String method){
         this(headers, url);
         httpRequest = httpRequest.method(method);
     }
 
-    public HttpRequest(Map<String, String> headers, String url, String method, Map<String, String> params){
+    public HttpRequest(Map<String, Object> headers, String url, String method, Map<String, Object> params){
         this(headers, url, method);
 
-        for (Map.Entry<String, String> entry : params.entrySet()) {
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            httpRequest = httpRequest.pathParam(entry.getKey(), entry.getValue());
+        }
+    }
+
+    public void addHeader(Map<String, Object> headers){
+        for (Map.Entry<String, Object> entry : headers.entrySet()) {
             httpRequest = httpRequest.addHeader(entry.getKey(), entry.getValue());
         }
     }
@@ -46,9 +52,8 @@ public class HttpRequest {
         System.out.println(response.toString());
     }
 
-    public void get(String url){
-        JsonNode response = this.httpRequest.url(url).get();
-        System.out.println(response.toString());
+    public JsonNode get(String url){
+        return this.httpRequest.url(url).get();
     }
 
 //     public void post(String contentType, T<> requestBody){
