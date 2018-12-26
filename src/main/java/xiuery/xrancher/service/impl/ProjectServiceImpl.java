@@ -1,9 +1,11 @@
 package xiuery.xrancher.service.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xiuery.xrancher.common.HttpRequest;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import xiuery.xrancher.common.HttpClient;
+import xiuery.xrancher.config.XRancherConfig;
 import xiuery.xrancher.service.ProjectService;
 
 import java.util.ArrayList;
@@ -13,40 +15,42 @@ import java.util.Map;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
-    @Autowired
-    private HttpRequest httpRequest;
 
-    public List<Map> getProjects(){
+    @Autowired
+    private HttpClient httpClient;
+
+    @Autowired
+    private XRancherConfig xRancherConfig;
+
+    private Map<String, String> params = new HashMap<>();
+
+    private Map<String, String> body = new HashMap<>();
+
+    private MultiValueMap<String, String> getHeaders() {
+        // LinkedMultiValueMap实现了MultiValueMap接口
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+
+        headers.add("Content-Type", xRancherConfig.getContentType());
+        // headers.add("Authorization", "Bearer " + xRancherConfig.getToken());
+
+        return headers;
+    }
+
+    public List<Map> getProjects() {
         List<Map> projects = new ArrayList<>();
 
-//        for (int i =0; i < 3; i++){
-//            Map<String, String> p = new HashMap<>();
-//            p.put("B1", "B1");
-//            p.put("B2", "B2");
-//            p.put("B3", "B3");
-//
-//            Map<String, Map<String, String>> project = new HashMap<>();
-//            project.put("A", p);
-//
-//            projects.add(project);
-//        }
+        Map<String, Object> responseBody = httpClient.doGet(xRancherConfig.getUrl() + "/v3/projects", getHeaders(), params);
 
-        Map<String, Object> headers= new HashMap<>();
-        headers.put("Content-Type", "application/json");
-        // https://10.0.0.11:10443/v3
-        // Access Key: token-7lvdq
-        // Secret Key: fzxxd6dmvbngtv4thjzm4zt5nq5sr629kpjrlfvbh94dk2vr8f6bkv
-        // token-7lvdq:fzxxd6dmvbngtv4thjzm4zt5nq5sr629kpjrlfvbh94dk2vr8f6bkv
-        headers.put("Authorization", "Bearer token-7lvdq:fzxxd6dmvbngtv4thjzm4zt5nq5sr629kpjrlfvbh94dk2vr8f6bkv");
-
-        httpRequest.addHeader(headers);
-        JsonNode response = httpRequest.get("https://10.0.0.11:10443/v3/projects");
-        System.out.println(response);
+        for (Map.Entry<String, Object> entry : responseBody.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+        }
+        System.out.println(responseBody);
 
         return projects;
     }
 
-    public Map<String, Object> getProject(String name){
+    public Map<String, Object> getProject(String name) {
         Map<String, Object> p2 = new HashMap<>();
         p2.put("B1", "B1");
         p2.put("B2", "B2");
@@ -60,7 +64,7 @@ public class ProjectServiceImpl implements ProjectService {
         return p;
     }
 
-    public void delete(String name){
+    public void delete(String name) {
 
     }
 }

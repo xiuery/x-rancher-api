@@ -10,3 +10,8 @@ spring:
 mybatis:
   mapper-locations: classpath*\:mapper/*Mapper.xml
   type-aliases-package: com.xiuery.xrancher.entity
+x-config:
+  rancher-server:
+    url: https://127.0.0.1:10443
+    token: token-rzgqr:ffrntrqt8qkcfz5kx4447x9t2fhrczqnrchplmw2jwr8gj7m8pl6fl
+    content-type: application/json
