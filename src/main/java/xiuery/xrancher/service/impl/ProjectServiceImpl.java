@@ -31,7 +31,7 @@ public class ProjectServiceImpl implements ProjectService {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
 
         headers.add("Content-Type", xRancherConfig.getContentType());
-        // headers.add("Authorization", "Bearer " + xRancherConfig.getToken());
+        headers.add("Authorization", "Bearer " + xRancherConfig.getToken());
 
         return headers;
     }

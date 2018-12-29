@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(
-    prefix = "x-config.rancher"
+    prefix = "x-config.rancher-server"
 )
 public class XRancherConfig {
 
