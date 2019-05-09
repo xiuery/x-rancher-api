@@ -18,7 +18,7 @@ public class ProjectController {
      * 获取集群所有项目
      */
     @GetMapping("")
-    public List<Map> index(){
+    public List<Map> index() {
         return projectService.getProjects();
     }
 
