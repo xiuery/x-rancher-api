@@ -1,4 +1,4 @@
-### x-rancher-api
+### xs-rancher
 x-rancher api for rancher2.1
 
 #### Links
